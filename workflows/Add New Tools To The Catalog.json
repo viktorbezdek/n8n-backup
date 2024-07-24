@@ -1,0 +1,1082 @@
+{
+  "active": true,
+  "connections": {
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "Create screenshot & LQIP",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create screenshot & LQIP": {
+      "main": [
+        [
+          {
+            "node": "Postgres1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Categorize Product",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update categories and publish": {
+      "main": [
+        [
+          {
+            "node": "Save into changelog",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Save into changelog": {
+      "main": [
+        [
+          {
+            "node": "Remove URL From Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Remove URL From Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Remove URL From Sheets": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Categorize Product": {
+      "main": [
+        [
+          {
+            "node": "Update categories and publish",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrape Search Results": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Search Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Scrape Search Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Search Content": {
+      "main": [
+        [
+          {
+            "node": "OpenAI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-06-21T08:14:36.880Z",
+  "id": "LY40CxWd5JxdGf14",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Add New Tools To The Catalog",
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "upsert",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tools",
+          "mode": "list",
+          "cachedResultName": "tools"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "is_published": false,
+            "href": "={{ $('Google Sheets').item.json.href }}",
+            "key_features": "={{ Object.assign({}, $json.message.content.key_features) }}",
+            "meta": "={{ $json.message.content.meta }}",
+            "description": "={{ $json.message.content.description }}",
+            "name": "={{ $json.message.content.name }}",
+            "created_at": "={{ $now }}",
+            "updated_at": "={{ $now }}",
+            "slug": "={{ $json.message.content.slug }}",
+            "benefits": "={{ $json.message.content.benefits }}",
+            "pricing": "={{ $json.message.content.pricing }}",
+            "headline": "={{ $json.message.content.headline }}",
+            "target_audience": "={{ $json.message.content.target_audience }}"
+          },
+          "matchingColumns": [
+            "href"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "slug",
+              "displayName": "slug",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "href",
+              "displayName": "href",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "image",
+              "displayName": "image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false,
+              "removed": true
+            },
+            {
+              "id": "headline",
+              "displayName": "headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "key_features",
+              "displayName": "key_features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "benefits",
+              "displayName": "benefits",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "lqip",
+              "displayName": "lqip",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": false,
+              "removed": true
+            },
+            {
+              "id": "meta",
+              "displayName": "meta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "pricing",
+              "displayName": "pricing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": false
+            },
+            {
+              "id": "category_ids",
+              "displayName": "category_ids",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": false,
+              "removed": true
+            },
+            {
+              "id": "is_published",
+              "displayName": "is_published",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "cbe397cc-7d21-4367-9475-81eeef7c15b1",
+      "name": "Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [
+        2440,
+        380
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "tko4ipYnhuLrtVYX",
+          "name": "Vercel AI Catalog DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.ai-catalog.app/api/screenshot",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "url",
+              "value": "={{ $('Loop Over Items').item.json.href }}"
+            },
+            {
+              "name": "token",
+              "value": "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b"
+            },
+            {
+              "name": "id",
+              "value": "={{ $json.id }}"
+            }
+          ]
+        },
+        "options": {
+          "redirect": {
+            "redirect": {}
+          }
+        }
+      },
+      "id": "be51ef22-4a55-417a-aa8b-6cf167cb7415",
+      "name": "Create screenshot & LQIP",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2660,
+        400
+      ],
+      "retryOnFail": true,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "categories",
+          "mode": "list",
+          "cachedResultName": "categories"
+        },
+        "returnAll": true,
+        "options": {
+          "outputColumns": [
+            "id",
+            "name"
+          ]
+        }
+      },
+      "id": "e85cb919-9736-4352-bd81-4ddb18b6e319",
+      "name": "Postgres1",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [
+        2960,
+        580
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "tko4ipYnhuLrtVYX",
+          "name": "Vercel AI Catalog DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "id": "37de132d-a54d-4608-b4e5-418bfb2e912a",
+      "name": "Aggregate",
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3160,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tools",
+          "mode": "list",
+          "cachedResultName": "tools"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "is_published": true,
+            "id": "={{ $('Postgres').item.json.id }}",
+            "updated_at": "={{ $now }}",
+            "category_ids": "={{ $('Categorize Product').item.json.message.content.categories.map(c=>c.id) }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "slug",
+              "displayName": "slug",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "href",
+              "displayName": "href",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "image",
+              "displayName": "image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "headline",
+              "displayName": "headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "key_features",
+              "displayName": "key_features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "benefits",
+              "displayName": "benefits",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "lqip",
+              "displayName": "lqip",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "meta",
+              "displayName": "meta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "pricing",
+              "displayName": "pricing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true,
+              "removed": true
+            },
+            {
+              "id": "category_ids",
+              "displayName": "category_ids",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "is_published",
+              "displayName": "is_published",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "717cf3b3-eccf-45c6-bc0c-0f910d39ce2c",
+      "name": "Update categories and publish",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [
+        3740,
+        580
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "tko4ipYnhuLrtVYX",
+          "name": "Vercel AI Catalog DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Zl5FHnFJy77UJhXGMevQErvbIMrJX-GJYA0mX6Zvfq0",
+          "mode": "list",
+          "cachedResultName": "AI Catalog changelog",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Zl5FHnFJy77UJhXGMevQErvbIMrJX-GJYA0mX6Zvfq0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "List 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Zl5FHnFJy77UJhXGMevQErvbIMrJX-GJYA0mX6Zvfq0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "message": "=Added new tool  {{ $('Postgres').item.json.name }}, into  {{ $('Categorize Product').item.json.message.content.categories.map(c=>c.name).join(', ') }}, with screenshot  {{ $('Create screenshot & LQIP').item.json.url }}",
+            "timestamp": "={{ $now }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1d28dba9-6ef0-45e5-b23f-e57a19321e0b",
+      "name": "Save into changelog",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        3740,
+        820
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vkLyWQX7TMf4wP6O",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "https://docs.google.com/spreadsheets/d/1MGN_gqniaX7LJ2LkTRSa7YZl1RH1KGIuaKs3cXH8jW8/edit?gid=0#gid=0",
+          "mode": "url"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "List 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1MGN_gqniaX7LJ2LkTRSa7YZl1RH1KGIuaKs3cXH8jW8/edit#gid=0"
+        },
+        "options": {}
+      },
+      "id": "a95bdb41-89ad-428b-a6c1-f43fe1c407c2",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        20,
+        600
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vkLyWQX7TMf4wP6O",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "id": "13dbf347-8c6b-4ebb-b26a-1ffb4ccb34cd",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "61ef65d4-8e6b-47c6-acfc-3ef1f8feb4af",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        460,
+        460
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "console.log('done')"
+      },
+      "id": "e26ac3cf-a261-4ffd-acf9-d6e9908738ee",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        660,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "fe135cdd-74df-44c7-baca-57d841f84f7e",
+              "leftValue": "=",
+              "rightValue": 400,
+              "operator": {
+                "type": "number",
+                "operation": "gt"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "1c3d71c5-5698-4561-9859-8825077d76bc",
+      "name": "If",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        720
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "documentId": {
+          "__rl": true,
+          "value": "1MGN_gqniaX7LJ2LkTRSa7YZl1RH1KGIuaKs3cXH8jW8",
+          "mode": "list",
+          "cachedResultName": "New tools for AI catalog",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1MGN_gqniaX7LJ2LkTRSa7YZl1RH1KGIuaKs3cXH8jW8/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "List 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1MGN_gqniaX7LJ2LkTRSa7YZl1RH1KGIuaKs3cXH8jW8/edit#gid=0"
+        },
+        "startIndex": "=2"
+      },
+      "id": "4a9db8e3-0cc4-4610-bc78-dfde23486498",
+      "name": "Remove URL From Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        3020,
+        1060
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vkLyWQX7TMf4wP6O",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Select from categories appropriate ones for following product:\n{{ $('Postgres').item.json.name }}\n{{ $('Postgres').item.json.description }}\n{{ $('Postgres').item.json.key_features }}\n{{ $('Postgres').item.json.benefits }}\n{{ $('Postgres').item.json.target_audience }}\n\nYou have following categories available:\n{{ JSON.stringify($json.data) }}  \n\nCategories for the product are: "
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "id": "a3528260-40a7-4309-9b58-b6098e23f617",
+      "name": "Categorize Product",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        3320,
+        580
+      ],
+      "retryOnFail": true,
+      "credentials": {
+        "openAiApi": {
+          "id": "EW62zYsJzfdDu44Q",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://s.jina.ai/{{ $('Google Sheets').item.json.href }}",
+        "options": {}
+      },
+      "id": "72260c26-682a-43a5-8293-23d3f0048dbb",
+      "name": "Scrape Search Results",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1220,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://r.jina.ai/{{ $json.href }}",
+        "options": {}
+      },
+      "id": "491e160f-ac39-45db-8df9-5e715fa21db2",
+      "name": "HTTP Request",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        920,
+        480
+      ]
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are content relevancy evaluator. You remove text that is unrelated to application on given URL: {{ $('Google Sheets').item.json.href }}. In case nothing is related respond with \"\". Remove search results related to other similar tools.",
+              "role": "system"
+            },
+            {
+              "content": "Evaluate if text is connected to app on a given URL and remove everything irrelevant. (Even the whole text can be irrelevant. In such case, return empty message.)\n\nURL: \n{{ $('Loop Over Items').item.json.href }}\n\nText:  \n{{ $json.data }}\n\nCleaned-up text:"
+            }
+          ]
+        },
+        "options": {
+          "temperature": 0
+        }
+      },
+      "id": "04344e03-4e36-4a7e-9e00-f909951f3f7e",
+      "name": "Evaluate Search Content",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1420,
+        380
+      ],
+      "credentials": {
+        "openAiApi": {
+          "id": "EW62zYsJzfdDu44Q",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "gpt-4o",
+          "mode": "list",
+          "cachedResultName": "GPT-4O"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are tasked with generating a JSON object that complies with a given JSON schema. The JSON should be populated with provided information and qualified assumptions made from that information. Follow these steps carefully:\n\n1. First, review the JSON schema provided below:\n<json_schema>\n{\n  \"$schema\": \"http://json-schema.org/draft-07/schema#\",\n  \"type\": \"object\",\n  \"properties\": {\n    \"benefits\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\",\n        \"description\": \"Benefit description in length of 20-100 words.\"\n      }\n    },\n    \"description\": {\n      \"description\": \"Tool description in length of 200-300 words.\",\n      \"type\": \"string\"\n    },\n    \"headline\": {\n      \"description\": \"Tool headline in length of 20-50 words.\",\n      \"type\": \"string\"\n    },\n    \"href\": {\n      \"type\": \"string\",\n      \"description\": \"Tool URL.\"\"type\": \"string\"\n    },\n    \"key_features\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"feature\": {\n            \"type\": \"string\",\n            \"description\": \"Feature name. E.g. Analytics, Automation, CRM.\"\n          },\n          \"description\": {\n            \"type\": \"string\",\n            \"description\": \"Feature description in length of 50-100 words.\"\n          }\n        },\n        \"required\": [\n          \"feature\",\n          \"description\"\n        ]\n      }\n    },\n    \"meta\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"title\": {\n          \"type\": \"string\",\n          \"description\": \"Meta title in length of 50-60 characters.\"\n        },\n        \"description\": {\n          \"type\": \"string\",\n          \"description\": \"Meta description in length of 150-160 characters.\"\n        },\n        \"keywords\": {\n          \"type\": \"string\",\n          \"description\": \"Meta keywords in length of 5-10 words.\"\n        }\n      },\n      \"required\": [\n        \"title\",\n        \"description\",\n        \"keywords\"\n      ]\n    },\n    \"name\": {\n      \"type\": \"string\",\n      \"description\": \"Tool name. Should be guessed from URL.\"\n    },\n    \"pricing\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"free\": {\n          \"type\": \"boolean\"\n        },\n        \"trial\": {\n          \"type\": \"boolean\"\n        },\n        \"paidPlans\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"name\": {\n                \"type\": \"string\"\n              },\n              \"price\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"name\",\n              \"price\"\n            ]\n          }\n        }\n      },\n      \"required\": [\n        \"free\",\n        \"trial\",\n        \"paidPlans\"\n      ]\n    },\n    \"slug\": {\n      \"type\": \"string\",\n      \"description\": \"Tool slug. No spaces, no special characters. Use hyphens a-z 0-9.\"\n    },\n    \"target_audience\": {\n      \"type\": \"array\",\n      \"items\": {\n        \"type\": \"string\",\n        \"description\": \"Target persona. E.g. Marketers, Designers, Developers.\"\n      }\n    }\n  },\n  \"required\": [\n    \"description\",\n    \"headline\",\n    \"href\",\n    \"key_features\",\n    \"meta\",\n    \"name\",\n    \"slug\",\n    \"target_audience\"\n  ]\n}\n</json_schema>\n\n2. Now, carefully read and analyze the following information:\n<information>\nURL: \n{{ $('Loop Over Items').item.json.href }}\n\nScraped homepage:\n{{ $('HTTP Request').item.json.data }}\n\nScraped search results info:\n{{ $('Scrape Search Results').item }}\n</information>\n\n3. Analyze the provided information:\n   - Identify key details that directly correspond to fields in the JSON schema.\n   - Note any missing information that you'll need to make qualified assumptions about.\n   - Pay attention to specific requirements like word counts and character limits for various fields.\n\n4. Generate the JSON object:\n   - Populate the JSON fields with information from the provided content where available.\n   - Where information is missing, make reasonable assumptions based on the context and nature of the tool or service described.\n   - Ensure all required fields are filled.\n   - Adhere to the specified lengths for descriptions, headlines, and other text fields.\n   - For arrays like 'benefits', 'key_features', and 'target_audience', create multiple items if the information supports it.\n   - For the 'pricing' object, make a best guess based on available information, defaulting to common structures if specifics are not provided.\n   - Generate a suitable 'slug' based on the tool's name.\n\n5. Double-check your work:\n   - Ensure the JSON structure matches the provided schema exactly.\n   - Verify that all required fields are present and correctly formatted.\n   - Check that text lengths are within the specified limits.\n\n6. Output your generated JSON:\n   - Present the complete JSON object, properly formatted and indented for readability.\n   - Use <json> tags to enclose your JSON output.\n\nRemember, your goal is to create a comprehensive and accurate JSON representation of the tool or service described in the information, while strictly adhering to the provided JSON schema. Make reasonable assumptions where necessary, but ensure they are consistent with the overall description and purpose of the tool.\n\nGenerated formatted JSON data:"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {
+          "frequency_penalty": 0,
+          "temperature": 0.3,
+          "topP": 0.5
+        }
+      },
+      "id": "cab7680b-4992-45c5-bad1-0ee8707d911b",
+      "name": "OpenAI",
+      "type": "@n8n/n8n-nodes-langchain.openAi",
+      "typeVersion": 1.3,
+      "position": [
+        1920,
+        380
+      ],
+      "retryOnFail": false,
+      "waitBetweenTries": 5000,
+      "credentials": {
+        "openAiApi": {
+          "id": "EW62zYsJzfdDu44Q",
+          "name": "OpenAi account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveDataSuccessExecution": "none",
+    "saveExecutionProgress": true,
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "staticData": {
+    "node:Schedule Trigger": {
+      "recurrencyRules": [
+        9
+      ],
+      "recurrenceRules": []
+    }
+  },
+  "tags": [
+    {
+      "createdAt": "2024-06-20T21:01:59.157Z",
+      "updatedAt": "2024-06-20T21:01:59.157Z",
+      "id": "homuTtuPn97HBHPf",
+      "name": "AI Catalog"
+    }
+  ],
+  "triggerCount": 1,
+  "updatedAt": "2024-07-09T17:21:58.567Z",
+  "versionId": "9bf800cc-1e17-4f63-a40d-774d77671941"
+}
