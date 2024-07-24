@@ -1,0 +1,485 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Postgres",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Postgres": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Add info to changelog",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Update tool in DB",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update tool in DB": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-06-24T14:19:42.980Z",
+  "id": "UXs0JMKQK4Loghm5",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Update empty categories",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "ed9362e2-339a-40cb-a492-5f0e9b2a45a6",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        800,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "select",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tools",
+          "mode": "list",
+          "cachedResultName": "tools"
+        },
+        "returnAll": true,
+        "where": {
+          "values": [
+            {
+              "column": "meta",
+              "condition": "IS NULL"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "30c4b80a-4190-48bf-947d-21f6ab7e2593",
+      "name": "Postgres",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [
+        980,
+        580
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "tko4ipYnhuLrtVYX",
+          "name": "Vercel AI Catalog DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "0224fec8-83ad-41f4-85f2-02838ab7f808",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.1,
+      "position": [
+        1440,
+        800
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "HUUM0aqdnwHQn7ka",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"Unlock Blockchain Secrets with AI! | Web3 Summary Simplifies On-Chain Research\",\n  \"keywords\": \"Web3, blockchain research, on-chain analytics, AI insights, trading opportunities, blockchain protocols, cryptocurrency, blockchain technology, crypto trading\",\n  \"description\": \"Discover the ultimate platform for on-chain research! Web3 Summary uses cutting-edge AI to deliver actionable insights and trading opportunities across multiple blockchains and protocols.\"\n}"
+      },
+      "id": "39863f26-5a8b-4393-945c-8aaa70031977",
+      "name": "Structured Output Parser",
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        1640,
+        800
+      ]
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are tasked with generating SEO metadata for a webpage that will motivate people to visit the page. Your goal is to create compelling, attention-grabbing metadata that will increase click-through rates and improve search engine rankings.\n\nFirst, carefully review the following page content:\n\n<page_content>\n{{ $json.description }}\n{{ JSON.stringify($json.key_features, null, 2) }}\n</page_content>\n\nNext, consider the target audience for this page:\n\n<target_audience>\n{{ $json.target_audience ? $json.target_audience.join('\\n') : \"General\" }}\n</target_audience>\n\nAnalyze the page content thoroughly, identifying the main topic, key points, and any unique or interesting aspects that could be highlighted. Pay special attention to elements that might be particularly appealing or intriguing to the target audience.\n\nConsider the interests, needs, and pain points of the target audience. Think about what kind of language, tone, and hooks would be most effective in capturing their attention and motivating them to click.\n\nWhen generating the SEO metadata, keep the following guidelines in mind:\n1. Be concise yet descriptive\n2. Use powerful, emotive language\n3. Include relevant keywords naturally\n4. Create a sense of urgency or curiosity\n5. Highlight unique selling points or benefits\n6. Don't be afraid to use clickbait tactics, but ensure the content delivers on the promise\n\nGenerate the following metadata:\n1. Title: Create an attention-grabbing title of 50-60 characters that includes the main keyword and a compelling hook.\n2. Description: Write a persuasive description of 150-160 characters that expands on the title and motivates the user to click.\n3. Keywords: List 5-7 relevant keywords or short phrases, separated by commas.\n\nRemember, your goal is to make the metadata as clickable and shareable as possible. Use language that creates excitement, curiosity, or a sense of urgency. Don't hesitate to make bold claims or use superlatives, as long as they are somewhat grounded in the actual content of the page.\n\nOutput your generated metadata in JSON the following format:\n\n{\n  \"title\": \"Title of the page\",\n  \"keywords\": \"Keywords, page\",\n  \"description\": \"Description of the page\"\n}",
+        "hasOutputParser": true
+      },
+      "id": "4c2ca6bf-e846-4368-8a1d-43349560976e",
+      "name": "Basic LLM Chain",
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.4,
+      "position": [
+        1440,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "0aecf303-cfd4-4f24-9a99-8d1af2884af7",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        580
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "schema": {
+          "__rl": true,
+          "mode": "list",
+          "value": "public"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tools",
+          "mode": "list",
+          "cachedResultName": "tools"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "is_published": false,
+            "id": "={{ $('Loop Over Items').item.json.id }}",
+            "meta": "={{ $json.output }}",
+            "updated_at": "={{ $now }}"
+          },
+          "matchingColumns": [
+            "id"
+          ],
+          "schema": [
+            {
+              "id": "id",
+              "displayName": "id",
+              "required": false,
+              "defaultMatch": true,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "created_at",
+              "displayName": "created_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "updated_at",
+              "displayName": "updated_at",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "dateTime",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "slug",
+              "displayName": "slug",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "href",
+              "displayName": "href",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "name",
+              "displayName": "name",
+              "required": true,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "description",
+              "displayName": "description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "image",
+              "displayName": "image",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "headline",
+              "displayName": "headline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "target_audience",
+              "displayName": "target_audience",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "key_features",
+              "displayName": "key_features",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "benefits",
+              "displayName": "benefits",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "lqip",
+              "displayName": "lqip",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "meta",
+              "displayName": "meta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "pricing",
+              "displayName": "pricing",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "object",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "category_ids",
+              "displayName": "category_ids",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "array",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "is_published",
+              "displayName": "is_published",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "boolean",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1af06597-8af7-488b-9225-88c0b8fcb945",
+      "name": "Update tool in DB",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [
+        1820,
+        600
+      ],
+      "credentials": {
+        "postgres": {
+          "id": "tko4ipYnhuLrtVYX",
+          "name": "Vercel AI Catalog DB"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1Zl5FHnFJy77UJhXGMevQErvbIMrJX-GJYA0mX6Zvfq0",
+          "mode": "list",
+          "cachedResultName": "AI Catalog changelog",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Zl5FHnFJy77UJhXGMevQErvbIMrJX-GJYA0mX6Zvfq0/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "List 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1Zl5FHnFJy77UJhXGMevQErvbIMrJX-GJYA0mX6Zvfq0/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $now }}",
+            "message": "=Updated metadata in  {{ $('Postgres').all().length }} tools"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "message",
+              "displayName": "message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "b546774e-5170-4dd8-8647-a6efdb68b3d5",
+      "name": "Add info to changelog",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        1460,
+        380
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vkLyWQX7TMf4wP6O",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [
+    {
+      "createdAt": "2024-06-20T21:01:59.157Z",
+      "updatedAt": "2024-06-20T21:01:59.157Z",
+      "id": "homuTtuPn97HBHPf",
+      "name": "AI Catalog"
+    }
+  ],
+  "triggerCount": 0,
+  "updatedAt": "2024-06-24T14:41:46.475Z",
+  "versionId": "50845ed9-8d1a-46cd-8482-716c3a14b8f0"
+}
