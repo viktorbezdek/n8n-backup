@@ -1,0 +1,835 @@
+{
+  "active": false,
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "Fetch Block Categories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Block Categories": {
+      "main": [
+        [
+          {
+            "node": "Filter Directories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Directories": {
+      "main": [
+        [
+          {
+            "node": "Fetch Block Dirs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Block Dirs": {
+      "main": [
+        [
+          {
+            "node": "Filter Directories #2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Directories #2": {
+      "main": [
+        [
+          {
+            "node": "Fetch File List",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch File List": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch File Content": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Fetch File Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Anthropic Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "GitHub1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Google Sheets1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GitHub1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Google Sheets2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2024-06-26T10:34:15.671Z",
+  "id": "WDYKeFQoP53cIxAv",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "Tailblocks Refactoring",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "7e719b0c-44b3-4802-8018-54b88cf29769",
+      "name": "When clicking ‘Test workflow’",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        400,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "mertJF",
+          "mode": "list",
+          "cachedResultName": "mertJF",
+          "cachedResultUrl": "https://github.com/mertJF"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "tailblocks",
+          "mode": "list",
+          "cachedResultName": "tailblocks",
+          "cachedResultUrl": "https://github.com/mertJF/tailblocks"
+        },
+        "filePath": "={{ $json.path }}"
+      },
+      "id": "47476f49-a8f7-426a-a268-ad24f0e9f4bd",
+      "name": "Fetch Block Dirs",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1020,
+        400
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "iIv5qyag3gftTzWU",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "mertJF",
+          "mode": "list",
+          "cachedResultName": "mertJF",
+          "cachedResultUrl": "https://github.com/mertJF"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "tailblocks",
+          "mode": "list",
+          "cachedResultName": "tailblocks",
+          "cachedResultUrl": "https://github.com/mertJF/tailblocks"
+        },
+        "filePath": "src/blocks"
+      },
+      "id": "c5b58d13-8790-418f-b886-081ef615bb98",
+      "name": "Fetch Block Categories",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        580,
+        400
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "iIv5qyag3gftTzWU",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a09d9590-09cb-4528-95b7-01c5e054921d",
+              "leftValue": "={{ $json.type }}",
+              "rightValue": "dir",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "46e0f65f-903f-475d-9cc6-d1eb3227ac42",
+      "name": "Filter Directories",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        800,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "a09d9590-09cb-4528-95b7-01c5e054921d",
+              "leftValue": "={{ $json.type }}",
+              "rightValue": "dir",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4ed501fd-825a-4a5f-adf1-6c5dd80e7950",
+      "name": "Filter Directories #2",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1220,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "batchSize": 3,
+        "options": {}
+      },
+      "id": "18f0622b-951a-46b1-b2c1-cbd06ffcafc2",
+      "name": "Loop Over Items",
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        2140,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "file",
+        "operation": "list",
+        "owner": {
+          "__rl": true,
+          "value": "mertJF",
+          "mode": "list",
+          "cachedResultName": "mertJF",
+          "cachedResultUrl": "https://github.com/mertJF"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "tailblocks",
+          "mode": "list",
+          "cachedResultName": "tailblocks",
+          "cachedResultUrl": "https://github.com/mertJF/tailblocks"
+        },
+        "filePath": "={{ $json.path }}"
+      },
+      "id": "791ed0f6-383c-4e1c-8c03-03658ebeac58",
+      "name": "Fetch File List",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        1420,
+        400
+      ],
+      "credentials": {
+        "githubOAuth2Api": {
+          "id": "iIv5qyag3gftTzWU",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.download_url }}",
+        "options": {}
+      },
+      "id": "f845f968-646d-4d50-a07f-3b3564007764",
+      "name": "Fetch File Content",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2340,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg",
+          "mode": "list",
+          "cachedResultName": "Betterblocks Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "List 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Message": "Processing done",
+            "Timestamp": "={{ $now }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "529d1f16-3571-4d80-8351-f101a7b8427f",
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        2340,
+        40
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vkLyWQX7TMf4wP6O",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg",
+          "mode": "list",
+          "cachedResultName": "Betterblocks Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "List 1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "File": "={{ $json.files.name }}",
+            "Content": "={{ $json.files.content }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "File",
+              "displayName": "File",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Content",
+              "displayName": "Content",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "7b1186e1-49c8-4c9f-a317-aeb350ac2aa4",
+      "name": "Google Sheets1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.3,
+      "position": [
+        3780,
+        220
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vkLyWQX7TMf4wP6O",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "model": "claude-3-5-sonnet-20240620",
+        "options": {
+          "maxTokensToSample": 4096
+        }
+      },
+      "id": "36597047-c389-4a11-8407-39af9ef47183",
+      "name": "Anthropic Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatAnthropic",
+      "typeVersion": 1.1,
+      "position": [
+        2520,
+        440
+      ],
+      "credentials": {
+        "anthropicApi": {
+          "id": "HUUM0aqdnwHQn7ka",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "function extractComponents(input) {\n  const components = [];\n  const regex = /<(?:refactored_component|component) fileName=\"([^\"]+)\">([\\s\\S]*?)<\\/(?:refactored_component|component)>/g;\n  \n  let match;\n  while ((match = regex.exec(input)) !== null) {\n    components.push({\n      name: match[1],\n      content: match[2].trim()\n    });\n  }\n  \n  return components;\n}\n\nreturn {files: extractComponents($('AI Agent').item.json.output)}"
+      },
+      "id": "b506e1e6-ee5c-4c51-8cda-5b91097ccb7c",
+      "name": "Code",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2900,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "tailblox",
+        "contextWindowLength": 100
+      },
+      "id": "5b912d0d-a414-42e2-a88c-3660ab665b30",
+      "name": "Window Buffer Memory",
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.2,
+      "position": [
+        2640,
+        320
+      ]
+    },
+    {
+      "parameters": {
+        "maxItems": 5000,
+        "keep": "lastItems"
+      },
+      "id": "c7bcd6a4-ad39-4e13-a7cd-5fb93de69e8e",
+      "name": "Limit",
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1640,
+        400
+      ]
+    },
+    {
+      "parameters": {
+        "agent": "conversationalAgent",
+        "promptType": "define",
+        "text": "=You are an expert React and TypeScript developer tasked with refactoring poorly implemented static React components into properly implemented reusable dynamic TypeScript components. Your goal is to follow best practices and use perfect TypeScript 5.5 typing options while maintaining consistency across all refactored components.\n\nGuidelines for refactoring:\n\n- Break down the component into smaller, reusable components\n- Use TypeScript interfaces to define prop types, including thorough TSDoc comments\n- Implement proper state management if necessary\n- Use functional components with hooks instead of class components\n- Ensure proper naming conventions and file structure\n- Implement proper error handling and input validation\n- Prop types should extend native tags and use composition, props should have TSDoc comments\n- Use tailwind CSS approach for styling, responsive with dark mode support\n- Optimize performance where possible\n- Ensure accessibility (a11y) compliance\n- Add appropriate comments and documentation\n- Use slot patterns for maximum flexibility in component composition\n- Make all sections optional to accommodate various use cases\n- Favor composition over configuration in component design\n- Ensure consistency in naming conventions and structure across different components\n- Design components for high reusability and adaptability across different contexts\n- Use meaningful and consistent prop names across all components (e.g., 'actions' for button areas)\n- Provide a customizable className prop for easy styling overrides\n\nOutput Format:\n\nProvide your refactored code within the following XML structure, each tag representing a separate file:\n\n<refactored_component fileName=\"ComponentName.tsx\">\n[Your refactored main component code here]\n</refactored_component>\n\n<sub_components>\n\n<component fileName=\"SubComponentName1.tsx\">\n[Sub-component code here]\n</component>\n\n<component fileName=\"SubComponentName2.tsx\">\n[Another sub-component code here]\n</component>\n\n<!-- Add more <component> tags as needed for additional sub-components -->\n\n</sub_components>\n\nInstructions:\n\n- Analyze the provided component thoroughly before starting the refactoring process.\n- Consider how this component might fit into a larger design system or component library. \n- Ensure consistency with any previously refactored components if applicable.\n- Provide clear, concise explanations for your refactoring decisions in the beginning of the message in <scratchpad> xml tag.\n- Use meaningful file names that reflect the purpose of each component.\n- Ensure your refactored components are designed for proper code reuse and can be easily integrated with other components.\n- If you need clarification or additional information, ask before proceeding with the refactoring.\n\nBegin your refactoring process only after you've received the component code to be refactored. Provide your output in the specified format, focusing on creating flexible, reusable components that enhance developer experience and maintain consistency across the entire component set.\n\n<component_code>\n{{ $json.data }}\n</component_code>",
+        "options": {}
+      },
+      "id": "efb1b679-0a46-4ed5-80da-e3037a23d2fa",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        2540,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "files",
+        "include": "allOtherFields",
+        "options": {}
+      },
+      "id": "4cf697ed-6b2d-40bb-a12a-bb5e7cbdbc4f",
+      "name": "Split Out",
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3120,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "viktorbezdek",
+          "mode": "list",
+          "cachedResultName": "viktorbezdek",
+          "cachedResultUrl": "https://github.com/viktorbezdek"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "betterblocks",
+          "mode": "list",
+          "cachedResultName": "betterblocks",
+          "cachedResultUrl": "https://github.com/viktorbezdek/betterblocks"
+        },
+        "filePath": "=src/{{ $json.files.name }}",
+        "fileContent": "={{ $json.files.content }}",
+        "commitMessage": "=Added  {{ $json.files.name }}",
+        "additionalParameters": {
+          "author": {
+            "name": "Viktor Bezdek",
+            "email": "viktor.bezdek@gmail.com"
+          }
+        }
+      },
+      "id": "c08a6812-fa7a-4002-8382-f24a93ba700b",
+      "name": "GitHub1",
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1,
+      "position": [
+        3320,
+        520
+      ],
+      "credentials": {
+        "githubApi": {
+          "id": "8OFtUMmzfu8Yzg5g",
+          "name": "GitHub account 2"
+        }
+      },
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg",
+          "mode": "list",
+          "cachedResultName": "Betterblocks Log",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 589998034,
+          "mode": "list",
+          "cachedResultName": "List 2",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1nZngHydcEfQOTzUJW_PmO07PJXlS4ju1HvT24n35LCg/edit#gid=589998034"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Message": "Error",
+            "File": "="
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "File",
+              "displayName": "File",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "1158bda3-0000-4981-a478-a32a62639b86",
+      "name": "Google Sheets2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.4,
+      "position": [
+        3620,
+        560
+      ],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "vkLyWQX7TMf4wP6O",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "f82a34e6-d2d3-4f2f-a6e7-1cc53fc3aabf",
+              "leftValue": "={{ $json.path }}",
+              "rightValue": "dark",
+              "operator": {
+                "type": "string",
+                "operation": "notContains"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "4e3d734f-ec4a-4846-8024-0423b66e6933",
+      "name": "Filter",
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2,
+      "position": [
+        1860,
+        400
+      ]
+    }
+  ],
+  "pinData": {
+    "Split Out": [
+      {
+        "json": {
+          "files": {
+            "name": "TestimonialSection.tsx",
+            "content": "import React from 'react';\nimport { TestimonialCard, TestimonialCardProps } from './TestimonialCard';\nimport { useDarkMode } from '../hooks/useDarkMode';\n\n/**\n * Props for the TestimonialSection component\n * @interface TestimonialSectionProps\n * @extends React.HTMLAttributes<HTMLElement>\n */\ninterface TestimonialSectionProps extends React.HTMLAttributes<HTMLElement> {\n  /** Array of testimonial card data */\n  testimonials?: TestimonialCardProps[];\n  /** Custom class name for the section */\n  className?: string;\n}\n\n/**\n * TestimonialSection component to display a grid of testimonials\n * @param {TestimonialSectionProps} props - The props for the TestimonialSection component\n */\nexport const TestimonialSection: React.FC<TestimonialSectionProps> = ({\n  testimonials = [],\n  className = '',\n  ...props\n}) => {\n  const { isDarkMode } = useDarkMode();\n\n  return (\n    <section\n      className={`text-gray-400 ${isDarkMode ? 'bg-gray-900' : 'bg-gray-100'} body-font ${className}`}\n      {...props}\n    >\n      <div className=\"container px-5 py-24 mx-auto\">\n        <div className=\"flex flex-wrap -m-4\">\n          {testimonials.map((testimonial, index) => (\n            <TestimonialCard key={index} {...testimonial} />\n          ))}\n        </div>\n      </div>\n    </section>\n  );\n};"
+          }
+        }
+      },
+      {
+        "json": {
+          "files": {
+            "name": "TestimonialCard.tsx",
+            "content": "import React from 'react';\nimport { Avatar, AvatarProps } from './Avatar';\nimport { useDarkMode } from '../hooks/useDarkMode';\n\n/**\n * Props for the TestimonialCard component\n * @interface TestimonialCardProps\n * @extends React.HTMLAttributes<HTMLDivElement>\n */\nexport interface TestimonialCardProps extends React.HTMLAttributes<HTMLDivElement> {\n  /** Avatar props */\n  avatar?: AvatarProps;\n  /** Testimonial text */\n  text?: string;\n  /** Author name */\n  author?: string;\n  /** Author title */\n  authorTitle?: string;\n  /** Custom class name for the card */\n  className?: string;\n}\n\n/**\n * TestimonialCard component to display a single testimonial\n * @param {TestimonialCardProps} props - The props for the TestimonialCard component\n */\nexport const TestimonialCard: React.FC<TestimonialCardProps> = ({\n  avatar,\n  text = 'Edison bulb retro cloud bread echo park, helvetica stumptown taiyaki taxidermy 90\\'s cronut +1 kinfolk. Single-origin coffee ennui shaman taiyaki vape DIY tote bag drinking vinegar cronut adaptogen squid fanny pack vaporware.',\n  author = 'John Doe',\n  authorTitle = 'Position',\n  className = '',\n  ...props\n}) => {\n  const { isDarkMode } = useDarkMode();\n  const themeColor = isDarkMode ? 'indigo' : 'blue';\n\n  return (\n    <div className={`lg:w-1/3 lg:mb-0 mb-6 p-4 ${className}`} {...props}>\n      <div className=\"h-full text-center\">\n        {avatar && <Avatar {...avatar} />}\n        <p className=\"leading-relaxed\">{text}</p>\n        <span className={`inline-block h-1 w-10 rounded bg-${themeColor}-500 mt-6 mb-4`}></span>\n        <h2 className={`${isDarkMode ? 'text-white' : 'text-gray-900'} font-medium title-font tracking-wider text-sm`}>\n          {author}\n        </h2>\n        <p className=\"text-gray-500\">{authorTitle}</p>\n      </div>\n    </div>\n  );\n};"
+          }
+        }
+      },
+      {
+        "json": {
+          "files": {
+            "name": "Avatar.tsx",
+            "content": "import React from 'react';\n\n/**\n * Props for the Avatar component\n * @interface AvatarProps\n * @extends React.ImgHTMLAttributes<HTMLImageElement>\n */\nexport interface AvatarProps extends React.ImgHTMLAttributes<HTMLImageElement> {\n  /** Custom class name for the avatar */\n  className?: string;\n}\n\n/**\n * Avatar component to display a user's profile picture\n * @param {AvatarProps} props - The props for the Avatar component\n */\nexport const Avatar: React.FC<AvatarProps> = ({ className = '', ...props }) => {\n  return (\n    <img\n      className={`w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-800 bg-gray-800 bg-opacity-10 ${className}`}\n      {...props}\n    />\n  );\n};"
+          }
+        }
+      },
+      {
+        "json": {
+          "files": {
+            "name": "useDarkMode.ts",
+            "content": "import { useState, useEffect } from 'react';\n\n/**\n * Custom hook for managing dark mode\n * @returns {Object} An object containing the current dark mode state and a function to toggle it\n */\nexport const useDarkMode = () => {\n  const [isDarkMode, setIsDarkMode] = useState(false);\n\n  useEffect(() => {\n    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');\n    setIsDarkMode(darkModeMediaQuery.matches);\n\n    const handleChange = (e: MediaQueryListEvent) => setIsDarkMode(e.matches);\n    darkModeMediaQuery.addEventListener('change', handleChange);\n\n    return () => darkModeMediaQuery.removeEventListener('change', handleChange);\n  }, []);\n\n  const toggleDarkMode = () => setIsDarkMode(!isDarkMode);\n\n  return { isDarkMode, toggleDarkMode };\n};"
+          }
+        }
+      }
+    ]
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2024-06-28T12:56:52.337Z",
+  "versionId": "3d675821-fd9c-42e4-9ae8-c09e76b63082"
+}
